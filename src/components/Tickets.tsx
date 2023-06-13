@@ -6,6 +6,7 @@ const apiService = new ApiService();
 
 export const Tickets = () => {
     const [tickets, setTickets] = useState([] as Ticket[]);
+    const [description, setDescription] = useState('');
     const navigate = useNavigate();
     let r = (Math.random() + 1).toString(36).substring(7);
     // The apiService returns observables, but you can convert to promises if
@@ -17,7 +18,8 @@ export const Tickets = () => {
         return () => sub.unsubscribe(); // clean up subscription
     }
     const addNewTicket = () => {
-        apiService.newTicket({description: r})
+        if (!description) return;
+        apiService.newTicket({description})
         updateState();
     }
     useEffect(() => {
@@ -39,7 +41,9 @@ export const Tickets = () => {
                 <span>loading...</span>
             )}</div>
         <div>
-            <button onClick={addNewTicket}>Add</button>
+            <button onClick={addNewTicket}>Add new ticket</button>
+            <label htmlFor='description'>Introduce description</label>
+            <input name='description' onChange={(event) => setDescription(event.target.value)}/>
         </div>
     </div>
 }

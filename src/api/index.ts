@@ -70,17 +70,15 @@ export class ApiService {
     }
 
     ticket(id: number): Observable<Ticket> {
-        return of(this.findTicketById(id)).pipe(delay(randomDelay()));
+        return of(this.findTicketById(id));
     }
 
     users() {
-        return of(this.storedUsers.map(user => ({...user}))).pipe(
-            delay(randomDelay())
-        );
+        return of(this.storedUsers.map(user => ({...user})));
     }
 
     user(id: number) {
-        return of(this.findUserById(id)).pipe(delay(randomDelay()));
+        return of(this.findUserById(id));
     }
 
     newTicket(payload: {description: string}) {
@@ -91,7 +89,9 @@ export class ApiService {
             completed: false
         };
 
-        return this.storedTickets.push({...newTicket});
+        return of(newTicket).pipe(
+            tap((ticket: Ticket) => this.storedTickets.push(ticket))
+        ).subscribe();
     }
 
     assign(ticketId: number, userId: number) {
@@ -103,7 +103,6 @@ export class ApiService {
         }
 
         return of(foundTicket).pipe(
-            delay(randomDelay()),
             tap((ticket: Ticket) => {
                 this.storedTickets = this.storedTickets.map(storedTicket => {
                     if (storedTicket.id === ticket.id) {
@@ -126,8 +125,8 @@ export class ApiService {
         }
 
         return of(foundTicket).pipe(
-            delay(randomDelay()),
             tap((ticket: Ticket) => {
+                console.log(ticket)
                 this.storedTickets = this.storedTickets.map(storedTicket => {
                     if (storedTicket.id === ticket.id) {
                         return {
@@ -138,6 +137,6 @@ export class ApiService {
                     return storedTicket;
                 });
             })
-        );
+        ).subscribe();
     }
 }
