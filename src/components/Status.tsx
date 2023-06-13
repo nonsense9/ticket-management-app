@@ -1,3 +1,3 @@
-export const Status = ({status}: {status: boolean}) => {
-  return <span>{status ? 'Completed': 'Uncompleted'}</span>
+export const Status = ({completed}: {completed: boolean}) => {
+  return <span>{completed ? 'Completed': 'Uncompleted'}</span>
 }

@@ -16,7 +16,7 @@ export const TicketDetails = () => {
         <div><button onClick={() => navigate(-1)}>Back</button></div>
         <div><h2>Ticket ID: {ticket.id}</h2></div>
         <div><p>Description: {ticket.description}</p></div>
-        <div><p>Status: <Status status={ticket.completed}/></p></div>
+        <div><p>Status: <Status completed={ticket.completed}/></p></div>
         <div><button onClick={() => {
             apiService.complete(ticket.id)
             apiService.ticket(Number(params.id)).subscribe((res) => setTicket(res))
