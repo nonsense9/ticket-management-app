@@ -93,7 +93,7 @@ export class ApiService {
 
         return of(newTicket).pipe(
             tap((ticket: Ticket) => this.storedTickets.push(ticket))
-        ).subscribe();
+        );
     }
 
     assign(ticketId: number, userId: number) {
@@ -140,6 +140,6 @@ export class ApiService {
                     return storedTicket;
                 });
             })
-        ).subscribe();
+        )
     }
 }

@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from "react";
-import {ApiService, Ticket} from "../api";
+import {Ticket} from "../api/service";
 import {useNavigate} from "react-router";
 
-const apiService = new ApiService();
 
-export const Tickets = () => {
+export const Tickets = ({apiService}: any) => {
     const [tickets, setTickets] = useState([] as Ticket[]);
     const [description, setDescription] = useState('');
     const [dictionary, setDictionary] = useState([{}] as any);
@@ -19,14 +18,14 @@ export const Tickets = () => {
     // The apiService returns observables, but you can convert to promises if
     // that is easier to work with. It's up to you.
     const updateState = () => {
-        const sub = apiService.tickets().subscribe(result => {
+        const sub = apiService.tickets().subscribe((result: Ticket[]) => {
             setTickets(result);
         });
         return () => sub.unsubscribe(); // clean up subscription
     }
     const addNewTicket = () => {
         if (!description) return;
-        apiService.newTicket({description})
+        apiService.newTicket({description}).subscribe()
         updateState();
     }
 
@@ -38,7 +37,7 @@ export const Tickets = () => {
 
     useEffect(() => {
         updateState();
-    }, [apiService]);
+    }, []);
 
     return <div>
         <div>

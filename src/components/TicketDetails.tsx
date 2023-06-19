@@ -1,10 +1,10 @@
 import {useLocation, useNavigate} from "react-router";
 import {Status} from "./Status";
-import {ApiService, Ticket} from "../api";
+import {ApiService, Ticket} from "../api/service";
 const apiService = new ApiService();
 
 export const TicketDetails = () => {
-    const {state} = useLocation();
+    const {state} = useLocation() as {state: Ticket};
     const navigate = useNavigate();
 
     return <div>
