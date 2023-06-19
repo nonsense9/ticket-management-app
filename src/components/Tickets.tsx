@@ -1,22 +1,13 @@
 import React, {useEffect, useState} from "react";
 import {Ticket} from "../api/service";
-import {useNavigate} from "react-router";
+import {Outlet, useNavigate} from "react-router";
 
 
 export const Tickets = ({apiService}: any) => {
     const [tickets, setTickets] = useState([] as Ticket[]);
     const [description, setDescription] = useState('');
-    const [dictionary, setDictionary] = useState([{}] as any);
-    const [word, setWord] = useState('' as string);
     const navigate = useNavigate();
-    const getAudio = () => {
-        const audio = dictionary.map((i: {phonetics: any;}) => i.phonetics[0])
-        let a = new Audio(audio[0].audio)
-        a.play();
-    }
-    let r = (Math.random() + 1).toString(36).substring(7);
-    // The apiService returns observables, but you can convert to promises if
-    // that is easier to work with. It's up to you.
+
     const updateState = () => {
         const sub = apiService.tickets().subscribe((result: Ticket[]) => {
             setTickets(result);
@@ -29,12 +20,6 @@ export const Tickets = ({apiService}: any) => {
         updateState();
     }
 
-    const getDictionary = () => {
-        return fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`, {
-            method: 'GET',
-        }).then((res) => res.json()).then(res => setDictionary(res))
-    }
-
     useEffect(() => {
         updateState();
     }, []);
@@ -45,7 +30,7 @@ export const Tickets = ({apiService}: any) => {
             {tickets.length > 0 ? (
                 <ul>
                     {tickets.map(t => (
-                        <li key={t.id} onClick={() => navigate(`/${t.id}`, {state: t})}>
+                        <li key={t.id} onClick={() => navigate(`/tickets/${t.id}`, {state: t})}>
                             Ticket: {t.id}, {t.description}
                         </li>
                     ))}
@@ -58,11 +43,6 @@ export const Tickets = ({apiService}: any) => {
             <label htmlFor='description'>Introduce description</label>
             <input name='description' onChange={(event) => setDescription(event.target.value)}/>
         </div>
-        <div>
-            <button onClick={getDictionary}>Get Audio</button>
-            <label htmlFor='word'>Introduce word to play</label>
-            <input name='word' onChange={(event) => setWord(event.target.value)}/>
-            <button onClick={getAudio}>Play Audio</button>
-        </div>
+        <div><Outlet/></div>
     </div>
 }
