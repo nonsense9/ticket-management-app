@@ -7,7 +7,13 @@ const apiService = new ApiService();
 export const Tickets = () => {
     const [tickets, setTickets] = useState([] as Ticket[]);
     const [description, setDescription] = useState('');
+    const [dictionary, setDictionary] = useState([{}] as any);
     const navigate = useNavigate();
+    const getAudio = () => {
+        const audio = dictionary.map((i: {phonetics: any;}) => i.phonetics[0])
+        let a = new Audio(audio[0].audio)
+        a.play();
+    }
     let r = (Math.random() + 1).toString(36).substring(7);
     // The apiService returns observables, but you can convert to promises if
     // that is easier to work with. It's up to you.
@@ -22,6 +28,13 @@ export const Tickets = () => {
         apiService.newTicket({description})
         updateState();
     }
+
+    const getDictionary = () => {
+        return fetch('https://api.dictionaryapi.dev/api/v2/entries/en/hello', {
+            method: 'GET',
+        }).then((res) => res.json()).then(res => setDictionary(res))
+    }
+
     useEffect(() => {
         updateState();
     }, [apiService]);
@@ -45,5 +58,7 @@ export const Tickets = () => {
             <label htmlFor='description'>Introduce description</label>
             <input name='description' onChange={(event) => setDescription(event.target.value)}/>
         </div>
+        <button onClick={getDictionary}>Get Audio</button>
+        <button onClick={getAudio}>Play Audio</button>
     </div>
 }

@@ -1,5 +1,5 @@
 import {Observable, of, throwError} from "rxjs";
-import {delay, tap} from "rxjs/operators";
+import {tap} from "rxjs/operators";
 
 /**
  * This service acts as a mock back-end.
@@ -48,6 +48,8 @@ export class ApiService {
     private lastTicketId = 1;
 
     private findTicketById(id: number) {
+        console.log('id', id)
+        console.log('storedTickets', this.storedTickets)
         const found = this.storedTickets.find(ticket => ticket.id === id);
         if (!found) {
             throw new Error(`Ticket (id=${id}) not found`);
@@ -119,6 +121,7 @@ export class ApiService {
 
     complete(ticketId: number) {
         const foundTicket = this.findTicketById(ticketId);
+        console.log('here', foundTicket)
 
         if (!foundTicket) {
             return throwError(new Error("ticket not found"));
