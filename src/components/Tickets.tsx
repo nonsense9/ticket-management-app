@@ -8,6 +8,7 @@ export const Tickets = () => {
     const [tickets, setTickets] = useState([] as Ticket[]);
     const [description, setDescription] = useState('');
     const [dictionary, setDictionary] = useState([{}] as any);
+    const [word, setWord] = useState('' as string);
     const navigate = useNavigate();
     const getAudio = () => {
         const audio = dictionary.map((i: {phonetics: any;}) => i.phonetics[0])
@@ -30,7 +31,7 @@ export const Tickets = () => {
     }
 
     const getDictionary = () => {
-        return fetch('https://api.dictionaryapi.dev/api/v2/entries/en/hello', {
+        return fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`, {
             method: 'GET',
         }).then((res) => res.json()).then(res => setDictionary(res))
     }
@@ -58,7 +59,11 @@ export const Tickets = () => {
             <label htmlFor='description'>Introduce description</label>
             <input name='description' onChange={(event) => setDescription(event.target.value)}/>
         </div>
-        <button onClick={getDictionary}>Get Audio</button>
-        <button onClick={getAudio}>Play Audio</button>
+        <div>
+            <button onClick={getDictionary}>Get Audio</button>
+            <label htmlFor='word'>Introduce word to play</label>
+            <input name='word' onChange={(event) => setWord(event.target.value)}/>
+            <button onClick={getAudio}>Play Audio</button>
+        </div>
     </div>
 }

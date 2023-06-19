@@ -1,5 +1,5 @@
 import {Observable, of, throwError} from "rxjs";
-import {tap} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 
 /**
  * This service acts as a mock back-end.
@@ -128,7 +128,7 @@ export class ApiService {
         }
 
         return of(foundTicket).pipe(
-            tap((ticket: Ticket) => {
+            map((ticket: Ticket) => {
                 console.log(ticket)
                 this.storedTickets = this.storedTickets.map(storedTicket => {
                     if (storedTicket.id === ticket.id) {
