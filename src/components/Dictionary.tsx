@@ -9,23 +9,31 @@ export const Dictionary = () => {
         if (!word) return;
         return fetch(`${dictionaryUrl}${word}`, {
             method: 'GET',
-        }).then((res) => res.json().then(res => setDictionary(res)));
+        }).then((res) => res.json().then(res => setDictionary(res))).finally(() => drawAudioButtons());
     }
-    const getAudio = () => {
-        const audio = dictionary.map((i: {phonetics: any;}) => i.phonetics[0].audio ? i.phonetics[0] : i.phonetics[1])
-        let a = new Audio(audio[0].audio);
-        a.play();
+    const drawAudioButtons = () => {
+        if (dictionary.length > 0) {
+            const btns = dictionary?.map((i: any) => {
+                return i
+            })
+            const {phonetics} = btns[0]
+            const audios = phonetics?.map((i: any) => i.audio);
+            const filteredAudios = audios?.filter((i: any) => i !== '')
+            for (let i = 0; i < filteredAudios?.length; i++) {
+                let a = new Audio(filteredAudios[i]);
+                a.play();
+            }
+        }
     }
 
     return <div>
         <div>
-            <label htmlFor='word'>Introduce word to play</label>
+            <label htmlFor='word'>Introduce your word</label>
             <input name='word' onChange={(event) => setWord(event.target.value)}/>
-            <button onClick={getDictionary}>Get Audio</button>
-            <button onClick={getAudio}>Play Audio</button>
+            <button onClick={getDictionary}>Play Audio</button>
         </div>
         {dictionary && dictionary.title ?
-            <div style={{color: 'red'}}>{dictionary.message}</div> : dictionary.map((item: any, idx: number) => {
+            <div style={{color: 'red'}}>{dictionary.message}</div> : dictionary?.map((item: any, idx: number) => {
                 return <div key={idx}>{item.sourceUrls}</div>
             })}
     </div>
