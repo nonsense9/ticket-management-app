@@ -5,13 +5,13 @@ export const Dictionary = () => {
     const [dictionary, setDictionary] = useState([{}] as any);
     const [word, setWord] = useState('' as string);
 
-    const getDictionary = () => {
+    const getWordFromDictionary = () => {
         if (!word) return;
         return fetch(`${dictionaryUrl}${word}`, {
             method: 'GET',
-        }).then((res) => res.json().then(res => setDictionary(res))).finally(() => drawAudioButtons());
+        }).then((res) => res.json().then(res => setDictionary(res))).finally(() => handlePlayAudio());
     }
-    const drawAudioButtons = () => {
+    const handlePlayAudio = () => {
         if (dictionary.length > 0) {
             const btns = dictionary?.map((i: any) => {
                 return i
@@ -30,7 +30,7 @@ export const Dictionary = () => {
         <div>
             <label htmlFor='word'>Introduce your word</label>
             <input name='word' onChange={(event) => setWord(event.target.value)}/>
-            <button onClick={getDictionary}>Play Audio</button>
+            <button onClick={getWordFromDictionary}>Play Audio</button>
         </div>
         {dictionary && dictionary.title ?
             <div style={{color: 'red'}}>{dictionary.message}</div> : dictionary?.map((item: any, idx: number) => {
