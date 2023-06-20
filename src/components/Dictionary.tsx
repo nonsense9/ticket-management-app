@@ -33,7 +33,7 @@ export const Dictionary = () => {
             <button onClick={getWordFromDictionary}>Play Audio</button>
         </div>
         {dictionary && dictionary.title ?
-            <div style={{color: 'red'}}>{dictionary.message}</div> : dictionary?.map((item: any, idx: number) => {
+            <div style={{color: 'red'}}>{`${dictionary.message} ${dictionary.resolution}`}</div> : dictionary?.map((item: any, idx: number) => {
                 return <div key={idx}>{item.sourceUrls}</div>
             })}
     </div>
