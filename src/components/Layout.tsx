@@ -6,6 +6,7 @@ export const Layout = () => {
     return <div>
         <div><Link to={'tickets'}>Tickets</Link></div>
         <div><Link to={'dictionary'}>Dictionary</Link></div>
+        <div><Link to={'map'}>Map</Link></div>
         <div><Outlet/></div>
     </div>
 }

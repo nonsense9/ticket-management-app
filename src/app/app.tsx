@@ -7,7 +7,8 @@ import {TicketDetails} from "../components/TicketDetails";
 import {ApiService} from "../api/service";
 import {Layout} from "../components/Layout";
 import {Dictionary} from "../components/Dictionary";
-
+import {Map} from "../components/Map";
+import { Wrapper } from "@googlemaps/react-wrapper";
 const apiService = new ApiService();
 
 const router = createBrowserRouter([
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
             {
                 path: 'dictionary',
                 element: <Dictionary/>
+            },
+            {
+                path: 'map',
+                element: <Wrapper apiKey={process.env.REACT_APP_API_KEY as string}><Map center={{lat: 0, lng: 15}} zoom={8}/></Wrapper>
             }
         ]
     },
