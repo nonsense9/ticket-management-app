@@ -30,7 +30,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'map',
-                element: <Wrapper apiKey={process.env.REACT_APP_API_KEY as string}><Map center={{lat: 0, lng: 15}} zoom={8}/></Wrapper>
+                element: <Wrapper apiKey={process.env.REACT_APP_API_KEY as string}><Map center={{lat: 47, lng: 28}} zoom={8}/></Wrapper>
             }
         ]
     },
