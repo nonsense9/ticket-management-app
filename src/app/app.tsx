@@ -1,5 +1,5 @@
 import React from "react";
-import "./app.css";
+import "./app.scss";
 import {Tickets} from "../components/Tickets";
 import {RouterProvider} from "react-router";
 import {createBrowserRouter} from "react-router-dom";

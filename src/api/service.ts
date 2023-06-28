@@ -36,7 +36,7 @@ export class ApiService {
             description: "Move the desk to the new location",
             assigneeId: 111,
             completed: false
-        }
+        },
     ];
 
     // mock initial users
@@ -59,6 +59,7 @@ export class ApiService {
     }
 
     private findUserById(id: number) {
+        console.log(this.storedTickets)
         const user = this.storedUsers.find(user => user.id === id);
         if (!user) {
             throw new Error(`User (id=${id}) not found`);
@@ -92,7 +93,7 @@ export class ApiService {
         };
 
         return of(newTicket).pipe(
-            tap((ticket: Ticket) => this.storedTickets.push(ticket))
+            map((ticket: Ticket) => this.storedTickets.push(ticket))
         );
     }
 
@@ -121,25 +122,18 @@ export class ApiService {
 
     complete(ticketId: number) {
         const foundTicket = this.findTicketById(ticketId);
-        console.log('here', foundTicket)
 
         if (!foundTicket) {
             return throwError(new Error("ticket not found"));
         }
 
-        return of(foundTicket).pipe(
-            map((ticket: Ticket) => {
-                console.log(ticket)
-                this.storedTickets = this.storedTickets.map(storedTicket => {
-                    if (storedTicket.id === ticket.id) {
-                        return {
-                            ...ticket,
-                            completed: true
-                        };
-                    }
-                    return storedTicket;
-                });
-            })
-        )
-    }
+        return this.storedTickets = this.storedTickets.map(storedTicket => {
+            if (storedTicket.id === ticketId) {
+                return {
+                    ...storedTicket,
+                    completed: true
+                };
+            }
+            return storedTicket;
+    })}
 }

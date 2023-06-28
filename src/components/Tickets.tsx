@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Ticket} from "../api/service";
 import {Outlet, useNavigate} from "react-router";
+import {Button, FormLabel} from "react-bootstrap";
 
 
 export const Tickets = ({apiService}: any) => {
@@ -26,6 +27,7 @@ export const Tickets = ({apiService}: any) => {
 
     return <div>
         <div>
+        <div>
             <h2>Tickets</h2>
             {tickets.length > 0 ? (
                 <ul>
@@ -39,9 +41,10 @@ export const Tickets = ({apiService}: any) => {
                 <span>loading...</span>
             )}</div>
         <div>
-            <button onClick={addNewTicket}>Add new ticket</button>
-            <label htmlFor='description'>Introduce description</label>
+            <Button onClick={addNewTicket}>Add new ticket</Button>
+            <FormLabel htmlFor='description'>Introduce description</FormLabel>
             <input name='description' onChange={(event) => setDescription(event.target.value)}/>
+        </div>
         </div>
         <div><Outlet/></div>
     </div>

@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {Button} from "react-bootstrap";
 
 export const Dictionary = () => {
     const dictionaryUrl = 'https://api.dictionaryapi.dev/api/v2/entries/en/'
@@ -30,7 +31,7 @@ export const Dictionary = () => {
         <div>
             <label htmlFor='word'>Introduce your word</label>
             <input name='word' onChange={(event) => setWord(event.target.value)}/>
-            <button onClick={getWordFromDictionary}>Play Audio</button>
+            <Button onClick={getWordFromDictionary}>Play Audio</Button>
         </div>
         {dictionary && dictionary.title ?
             <div style={{color: 'red'}}>{`${dictionary.message} ${dictionary.resolution}`}</div> : dictionary?.map((item: any, idx: number) => {
