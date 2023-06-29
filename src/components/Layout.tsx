@@ -1,11 +1,13 @@
 import React from "react";
 import {Outlet} from "react-router";
-import {Link} from "react-router-dom";
 import {Container} from "react-bootstrap";
 import {Header} from "./Header";
+import {Footer} from "./Footer";
+
 export const Layout = () => {
-    return <Container className="p-3 vh-100">
+    return <Container className="vh-100 p-0">
         <Header/>
-        <div className="d-flex justify-content-center"><Outlet/></div>
+        <div className="d-flex justify-content-center h-100"><Outlet/></div>
+        <Footer/>
     </Container>
 }

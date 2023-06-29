@@ -28,13 +28,14 @@ export const Dictionary = () => {
     }
 
     return <div>
-        <div>
+        <div className="d-flex justify-content-center align-items-center">
             <label htmlFor='word'>Introduce your word</label>
             <input name='word' onChange={(event) => setWord(event.target.value)}/>
             <Button onClick={getWordFromDictionary}>Play Audio</Button>
         </div>
         {dictionary && dictionary.title ?
-            <div style={{color: 'red'}}>{`${dictionary.message} ${dictionary.resolution}`}</div> : dictionary?.map((item: any, idx: number) => {
+            <div><p className="text-secondary">{`${dictionary.message} ${dictionary.resolution}`}</p>
+            </div> : dictionary?.map((item: any, idx: number) => {
                 return <div key={idx}>{item.sourceUrls}</div>
             })}
     </div>

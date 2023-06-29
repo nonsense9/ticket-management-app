@@ -23,7 +23,7 @@ export const Tickets = ({apiService}: any) => {
 
     useEffect(() => {
         updateState();
-    }, []);
+    }, [apiService]);
 
     return <div>
         <div>
