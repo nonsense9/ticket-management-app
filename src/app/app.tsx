@@ -1,46 +1,49 @@
-import React, { useEffect, useState } from "react";
-import "./app.css";
-import { ApiService, Ticket } from "../api";
+import React from "react";
+import "./app.scss";
+import {Tickets} from "../components/Tickets";
+import {Navigate, RouterProvider} from "react-router";
+import {createBrowserRouter} from "react-router-dom";
+import {TicketDetails} from "../components/TicketDetails";
+import {ApiService} from "../api/service";
+import {Layout} from "../components/Layout";
+import {Dictionary} from "../components/Dictionary";
+import {Map} from "../components/Map";
+import {Wrapper} from "@googlemaps/react-wrapper";
 
-interface AppProps {
-  apiService: ApiService;
-}
+const apiService = new ApiService();
 
-const App = ({ apiService }: AppProps) => {
-  const [tickets, setTickets] = useState([] as Ticket[]);
+const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <Navigate to="tickets"/>,
+        index: true,
+    },
+    {
+        path: '/',
+        element: <><Layout/></>,
+        children: [
+            {
+                path: 'tickets',
+                element: <Tickets apiService={apiService}/>,
+                children: [{
+                    path: ':id',
+                    element: <TicketDetails/>
+                }]
+            },
+            {
+                path: 'dictionary',
+                element: <Dictionary/>
+            },
+            {
+                path: 'map',
+                element: <Wrapper apiKey={process.env.REACT_APP_API_KEY as string}><Map/></Wrapper>
+            }
+        ]
+    },
+])
 
-  // The apiService returns observables, but you can convert to promises if
-  // that is easier to work with. It's up to you.
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await apiService.tickets().toPromise();
-      setTickets(result);
-    };
-    fetchData();
-
-    // Example of use observables directly
-    // const sub = apiService.tickets().subscribe(result => {
-    //   setTickets(result);
-    // });
-    // return () => sub.unsubscribe(); // clean up subscription
-  }, [apiService]);
-
-  return (
-    <div className="app">
-      <h2>Tickets</h2>
-      {tickets.length > 0 ? (
-        <ul>
-          {tickets.map(t => (
-            <li key={t.id}>
-              Ticket: {t.id}, {t.description}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <span>loading...</span>
-      )}
-    </div>
-  );
+const App = () => {
+    return <RouterProvider router={router}/>
 };
 
 export default App;
